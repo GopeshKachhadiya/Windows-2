@@ -1,228 +1,202 @@
-# Windows-2
+=====================================================================
 Rejetto HFS Vulnerable Lab – CVE-2024-23692
+=====================================================================
 
-## Overview
+1. Overview
+-----------
+This repository contains a deliberately vulnerable Windows lab built
+around Rejetto HTTP File Server (HFS). The lab demonstrates a real-world
+unauthenticated Remote Code Execution (RCE) vulnerability identified as
+CVE-2024-23692.
 
-This project demonstrates a deliberately vulnerable Windows lab based on Rejetto HTTP File Server (HFS), showcasing unauthenticated Remote Code Execution (RCE) through a real-world vulnerability CVE-2024-23692.
+The project is intended for:
+- Offensive security learning
+- Red team practice
+- Internship and portfolio demonstration
+- Understanding real-world Windows exploitation workflows
 
-The lab is designed for:
+The environment simulates a small organization file-sharing server that
+is vulnerable due to insecure default configuration and outdated
+software.
 
-Offensive security learning
+---------------------------------------------------------------------
 
-Red team practice
+2. Vulnerability Summary
+------------------------
+- Software Name        : Rejetto HTTP File Server (HFS)
+- Affected Version     : 2.4.0 RC7
+- CVE ID               : CVE-2024-23692
+- Vulnerability Type   : Unauthenticated Remote Code Execution (RCE)
+- Attack Vector        : Network (HTTP)
+- Authentication       : Not required
+- User Interaction     : Not required
+- Severity             : Critical
 
-Internship / portfolio demonstration
+---------------------------------------------------------------------
 
-Understanding real-world Windows exploitation chains
+3. CVSS Severity and Score
+--------------------------
+- CVSS Version         : v3.1
+- Base Score           : 9.8 (Critical)
+- Vector               : AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
 
-The environment simulates a small organization file-sharing server exposed internally, leading to initial compromise and privilege escalation.
+This score indicates that the vulnerability can be exploited remotely
+over the network with no authentication or user interaction and leads
+to full system compromise.
 
-## Vulnerability Summary
+---------------------------------------------------------------------
 
-Software: Rejetto HFS (HTTP File Server)
+4. Impact
+---------
+If successfully exploited, this vulnerability allows an attacker to:
 
-Affected Version: 2.4.0 RC7 (and earlier vulnerable releases)
+- Execute arbitrary operating system commands
+- Gain unauthenticated remote shell access
+- Fully compromise the Windows host
+- Escalate privileges to SYSTEM if misconfigurations exist
+- Pivot to other internal machines
+- Deploy malware, ransomware, or persistence mechanisms
+- Access, modify, or destroy sensitive data
 
-CVE ID: CVE-2024-23692
+---------------------------------------------------------------------
 
-Vulnerability Type: Unauthenticated Remote Code Execution (RCE)
+5. Technical Root Cause
+-----------------------
+Rejetto HFS supports macro-based scripting and event handling to process
+HTTP requests. In vulnerable versions, user-supplied input is not
+properly sanitized before being processed by the scripting engine.
 
-Attack Vector: Network (HTTP)
+This results in arbitrary command execution when crafted HTTP requests
+are sent to the server. The default configuration leaves scripting
+enabled and does not enforce authentication, making exploitation
+trivial.
 
-Authentication Required: ❌ No
+---------------------------------------------------------------------
 
-User Interaction Required: ❌ No
+6. Lab Environment
+------------------
 
-Severity: 🔴 Critical (CVSS v3.x – Critical)
+Target Machine:
+- Operating System     : Windows 10 Pro (64-bit)
+- Application          : Rejetto HFS 2.4.0 RC7
+- Service Port         : TCP 80
+- User Account         : john (standard user)
+- Architecture         : x64
 
-## Impact of CVE-2024-23692
+Attacker Machine:
+- Operating System     : Kali Linux or Parrot OS
+- Tools                : Metasploit Framework
+- Network              : Same virtual network as target
 
-This vulnerability allows an unauthenticated remote attacker to:
+---------------------------------------------------------------------
 
-Execute arbitrary system commands
+7. System Requirements
+----------------------
 
-Gain remote shell access
+Host System:
+- Minimum RAM          : 8 GB
+- Virtualization       : Enabled (Intel VT-x / AMD-V)
+- Hypervisor           : VMware Workstation or VirtualBox
 
-Compromise the entire Windows host
+Target VM (Windows):
+- RAM                  : 2 GB minimum
+- CPU                  : 1 core
+- Disk                 : 20 GB
+- Network Adapter      : NAT or Host-Only
 
-Use the server as a pivot point for lateral movement
+Attacker VM (Linux):
+- RAM                  : 2 GB minimum
+- Tools                : Metasploit Framework installed
 
-Escalate privileges to SYSTEM if misconfigurations exist
+---------------------------------------------------------------------
 
-Real-World Risk
-
-If exploited in production:
-
-Complete server takeover
-
-Data theft or deletion
-
-Malware or ransomware deployment
-
-Internal network compromise
-
-## Technical Root Cause
-
-Rejetto HFS supports macro-based scripting and event handling.
-Due to insufficient input validation, attacker-controlled input is processed and executed by the server, leading to command execution without authentication.
-
-This lab keeps:
-
-Scripting enabled
-
-No authentication
-
-Default insecure configuration
-
-to intentionally expose the vulnerability.
-
-## Lab Environment
-
-Target Machine
-
-Operating System: Windows 10 Pro (64-bit)
-
-Application: Rejetto HFS 2.4.0 RC7
-
-Service Port: TCP 80
-
-User Account: john (standard user)
-
-Architecture: x64
-
-Attacker Machine
-
-Kali Linux (or Parrot OS)
-
-Metasploit Framework
-
-Same virtual network as target
-
-## System Requirements
-Host System
-
-Minimum 8 GB RAM
-
-Virtualization enabled (Intel VT-x / AMD-V)
-
-VMware Workstation / VirtualBox
-
-Target VM (Windows)
-
-2 GB RAM (minimum)
-
-1 CPU core
-
-20 GB disk
-
-Network: NAT or Host-Only
-
-Attacker VM (Linux)
-
-2 GB RAM
-
-Metasploit Framework installed
-
-## How to Recreate This Vulnerable Machine
+8. Steps to Recreate the Vulnerable Machine
+-------------------------------------------
 
 Step 1: Install Windows 10
-
-Create a Windows 10 Pro VM
-
-Disable Windows Defender (lab only)
-
-Disable Windows Firewall
+- Create a new Windows 10 Pro virtual machine
+- Complete standard OS installation
+- Disable Windows Defender (lab use only)
+- Disable Windows Firewall
 
 Step 2: Install Rejetto HFS
-
-Download Rejetto HFS 2.4.0 RC7
-
-Run hfs.exe as Administrator
-
-Allow network access when prompted
+- Download Rejetto HFS version 2.4.0 RC7
+- Run hfs.exe as Administrator
+- Allow network access when prompted
 
 Step 3: Configure Vulnerable Settings
-
-Inside HFS:
-
-Enable Expert Mode
-
-Ensure event scripting is accessible
-
-Do NOT enable authentication
-
-Use default configuration
-
-Run server on port 80
+- Enable Expert Mode in HFS
+- Ensure event scripting is accessible
+- Do not configure authentication
+- Keep default insecure settings
+- Run the server on TCP port 80
 
 Step 4: Add Realism
+- Create a standard user named "john"
+- Create a shared directory:
+  C:\Shares\Public
+- Add sample files to the shared directory
 
-Create user:
+Step 5: Verification
+- Access the server from another machine:
+  http://TARGET-IP/
+- Confirm the banner shows:
+  HttpFileServer 2.4.0 RC7
 
-john
+---------------------------------------------------------------------
 
+9. Exploitation Flow (High-Level)
+---------------------------------
+1. Network scan identifies an open HTTP service
+2. Version enumeration reveals vulnerable HFS version
+3. CVE-2024-23692 is exploited remotely
+4. Unauthenticated remote code execution is achieved
+5. Reverse shell is obtained
+6. Local enumeration is performed
+7. Privilege escalation to SYSTEM is completed
 
-Create shared directory:
+---------------------------------------------------------------------
 
-C:\Shares\Public
+10. Learning Outcomes
+---------------------
+By completing this lab, a learner gains practical experience in:
 
+- Identifying vulnerable Windows services
+- Exploiting unauthenticated RCE vulnerabilities
+- Understanding insecure server configurations
+- Performing post-exploitation enumeration
+- Executing privilege escalation techniques
+- Designing realistic offensive security labs
 
-Place sample files inside
+---------------------------------------------------------------------
 
-Step 5: Verify
+11. Repository Structure (Suggested)
+------------------------------------
+Rejetto-HFS-CVE-2024-23692/
+│
+├── README.txt
+├── setup-guide/
+│   └── windows-setup.txt
+├── exploitation/
+│   └── attack-flow.txt
+├── flags/
+│   ├── user.txt
+│   └── root.txt
 
-From another machine:
+---------------------------------------------------------------------
 
-http://TARGET-IP/
+12. Disclaimer
+--------------
+This project is created strictly for educational and ethical security
+research purposes.
 
+- Do not deploy this configuration in production
+- Do not expose this machine to the public internet
+- The author is not responsible for misuse or illegal activity
 
-You should see:
+---------------------------------------------------------------------
 
-HttpFileServer 2.4.0 RC7
-
-## Exploitation Flow (High-Level)
-
-Network scanning identifies open HTTP service
-
-Version enumeration reveals vulnerable HFS release
-
-Exploitation of CVE-2024-23692
-
-Unauthenticated remote code execution
-
-Reverse shell obtained
-
-Local enumeration
-
-Privilege escalation to SYSTEM
-
-🔑 Learning Outcomes
-
-By completing this lab, a learner gains experience in:
-
-Windows service enumeration
-
-Exploiting unauthenticated RCE vulnerabilities
-
-Understanding insecure server configurations
-
-Post-exploitation enumeration
-
-Privilege escalation techniques
-
-Building real-world offensive security labs
-
-⚠️ Disclaimer
-
-This project is created strictly for educational and ethical security research purposes.
-
-Do NOT deploy this configuration in production
-
-Do NOT expose this machine to the public internet
-
-The author is not responsible for misuse
-
-🧑‍💻 Author
-Created By Gopesh Kachhadiya 
-Created as part of an Offensive Cybersecurity Internship Project
-Focused on real-world vulnerability exploitation and lab design.
+13. Author
+----------
+Created as part of an Offensive Cybersecurity Internship Project,
+focusing on real-world vulnerability exploitation and lab design.
