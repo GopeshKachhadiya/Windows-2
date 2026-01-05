@@ -1,6 +1,7 @@
 # Windows-2
 Rejetto HFS Vulnerable Lab – CVE-2024-23692
-### Overview
+
+## Overview
 
 This project demonstrates a deliberately vulnerable Windows lab based on Rejetto HTTP File Server (HFS), showcasing unauthenticated Remote Code Execution (RCE) through a real-world vulnerability CVE-2024-23692.
 
@@ -16,7 +17,7 @@ Understanding real-world Windows exploitation chains
 
 The environment simulates a small organization file-sharing server exposed internally, leading to initial compromise and privilege escalation.
 
-### Vulnerability Summary
+## Vulnerability Summary
 
 Software: Rejetto HFS (HTTP File Server)
 
@@ -34,7 +35,7 @@ User Interaction Required: ❌ No
 
 Severity: 🔴 Critical (CVSS v3.x – Critical)
 
-### Impact of CVE-2024-23692
+## Impact of CVE-2024-23692
 
 This vulnerability allows an unauthenticated remote attacker to:
 
@@ -60,7 +61,7 @@ Malware or ransomware deployment
 
 Internal network compromise
 
-### Technical Root Cause
+## Technical Root Cause
 
 Rejetto HFS supports macro-based scripting and event handling.
 Due to insufficient input validation, attacker-controlled input is processed and executed by the server, leading to command execution without authentication.
@@ -75,7 +76,7 @@ Default insecure configuration
 
 to intentionally expose the vulnerability.
 
-### Lab Environment
+## Lab Environment
 
 Target Machine
 
@@ -97,7 +98,7 @@ Metasploit Framework
 
 Same virtual network as target
 
-### System Requirements
+## System Requirements
 Host System
 
 Minimum 8 GB RAM
@@ -122,7 +123,7 @@ Attacker VM (Linux)
 
 Metasploit Framework installed
 
-### How to Recreate This Vulnerable Machine
+## How to Recreate This Vulnerable Machine
 
 Step 1: Install Windows 10
 
@@ -179,7 +180,7 @@ You should see:
 
 HttpFileServer 2.4.0 RC7
 
-### Exploitation Flow (High-Level)
+## Exploitation Flow (High-Level)
 
 Network scanning identifies open HTTP service
 
