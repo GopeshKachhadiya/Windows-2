@@ -1,6 +1,6 @@
 # Windows-2
 Rejetto HFS Vulnerable Lab – CVE-2024-23692
----
+
 ## Overview
 
 This project demonstrates a deliberately vulnerable Windows lab based on Rejetto HTTP File Server (HFS), showcasing unauthenticated Remote Code Execution (RCE) through a real-world vulnerability CVE-2024-23692.
@@ -16,8 +16,6 @@ Internship / portfolio demonstration
 Understanding real-world Windows exploitation chains
 
 The environment simulates a small organization file-sharing server exposed internally, leading to initial compromise and privilege escalation.
-
----
 
 ## Vulnerability Summary
 
@@ -36,8 +34,6 @@ Authentication Required: ❌ No
 User Interaction Required: ❌ No
 
 Severity: 🔴 Critical (CVSS v3.x – Critical)
-
----
 
 ## Impact of CVE-2024-23692
 
