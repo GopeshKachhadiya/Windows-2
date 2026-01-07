@@ -2,7 +2,7 @@
 
 # BlueKeep Vulnerable Lab - CVE-2019-0708
 
-1. Overview
+## 1. Overview
 
 This repository contains a deliberately vulnerable Windows lab designed to demonstrate the BlueKeep vulnerability affecting the Remote Desktop Protocol (RDP) service.
 
@@ -27,7 +27,7 @@ The environment represents a small organization workstation with exposed RDP ser
 - Documentation and Walkthrough for Windows-2 Lab : 
 ---
 
-2. Vulnerability Summary
+## 2. Vulnerability Summary
 
 Software Name       : Microsoft Remote Desktop Protocol (RDP)
 Operating System   : Windows 7 Professional SP1
@@ -43,7 +43,7 @@ AV:N / AC:L / PR:N / UI:N / S:U / C:H / I:H / A:H
 
 ---
 
-3. Vulnerability Impact
+## 3. Vulnerability Impact
 
 The BlueKeep vulnerability allows an attacker to:
 
@@ -57,7 +57,7 @@ Because the flaw exists at the kernel level, exploitation is highly unstable. In
 
 ---
 
-4. Lab Objective
+## 4. Lab Objective
 
 The objective of this lab is to:
 
@@ -70,7 +70,7 @@ The objective of this lab is to:
 
 ---
 
-5. System Requirements
+## 5. System Requirements
 
 Attacker Machine Requirements:
 
@@ -91,7 +91,7 @@ Target Machine Requirements:
 
 ---
 
-6. Target Machine Setup Instructions
+## 6. Target Machine Setup Instructions
 
 To recreate the vulnerable BlueKeep machine, follow these steps:
 
@@ -111,7 +111,7 @@ Important Notes:
 
 ---
 
-7. Attack Methodology Overview
+## 7. Attack Methodology Overview
 
 The attack follows a standard penetration testing workflow:
 
@@ -124,7 +124,7 @@ The attack follows a standard penetration testing workflow:
 
 ---
 
-8. Exploitation Behavior and Stability
+## 8. Exploitation Behavior and Stability
 
 BlueKeep exploitation is inherently unreliable due to:
 
@@ -144,7 +144,7 @@ This behavior is normal and confirms successful triggering of the vulnerability.
 
 ---
 
-9. Flags and Proof of Compromise
+## 9. Flags and Proof of Compromise
 
 User Flag Location:
 
@@ -156,7 +156,7 @@ The user flag represents confirmation of access to user-level data on the compro
 
 ---
 
-10. Security Disclaimer
+## 10. Security Disclaimer
 
 This project is created strictly for:
 
@@ -168,7 +168,7 @@ Exploiting systems without explicit authorization is illegal. The author is not 
 
 ---
 
-11. Learning Outcomes
+## 11. Learning Outcomes
 
 By completing this lab, the following skills are developed:
 
@@ -180,7 +180,7 @@ By completing this lab, the following skills are developed:
 
 ---
 
-12. References
+## 12. References
 
 - CVE-2019-0708
 - Microsoft Security Advisory
@@ -188,12 +188,13 @@ By completing this lab, the following skills are developed:
 - Windows RDP Security Architecture
 
 ---
-13 . Disclaimer
+
+## 13 . Disclaimer
 
 This lab is created strictly for educational and ethical penetration testing purposes. Do not deploy these configurations in production environments.
 
 ---
 
-14 . Author
+## 14 . Author
 
 Created By Gopesh Kachhadiya This lab was created as part of an offensive cybersecurity internship project focused on realistic attack simulations and hands-on learning.
