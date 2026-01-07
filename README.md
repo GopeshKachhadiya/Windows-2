@@ -21,10 +21,11 @@ The project is intended for:
 The environment represents a small organization workstation with exposed RDP services and missing security patches.
 
 ---
-## LINKS 
+## Important Links:  
 
-- Download Windows-2 Lab :
-- Documentation and Walkthrough for Windows-2 Lab : 
+ - Download Windows-2 : https://mega.nz/file/3R5mRB6A#gtvvxQ1RbT1lxdeCp8hiV5vzAhftI-_5_rojq0bZX_w
+ - Documentation for Windows-2 With Walkthrough: https://mega.nz/file/DRB2lKRY#1iWeAi_m2VHuvS5VHZzwmYPfRfZ5pGkrRcGaoRWSxe8
+
 ---
 
 ## 2. Vulnerability Summary
