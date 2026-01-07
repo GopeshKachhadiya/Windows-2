@@ -1,202 +1,199 @@
-# Windows-2
+# Windows-2 
 
-# Rejetto HFS Vulnerable Lab – CVE-2024-23692
+# BlueKeep Vulnerable Lab - CVE-2019-0708
 
 1. Overview
------------
-This repository contains a deliberately vulnerable Windows lab built
-around Rejetto HTTP File Server (HFS). The lab demonstrates a real-world
-unauthenticated Remote Code Execution (RCE) vulnerability identified as
-CVE-2024-23692.
+
+This repository contains a deliberately vulnerable Windows lab designed to demonstrate the BlueKeep vulnerability affecting the Remote Desktop Protocol (RDP) service.
+
+BlueKeep is a critical pre-authentication Remote Code Execution (RCE) vulnerability that exists in the Windows kernel. The vulnerability allows an unauthenticated attacker to remotely trigger memory corruption through the RDP service, potentially leading to full system compromise or denial of service.
+
+This lab is created strictly for educational and defensive security research purposes and simulates a real-world legacy Windows system commonly found in enterprise environments.
 
 The project is intended for:
+
 - Offensive security learning
-- Red team practice
+- Penetration testing practice
 - Internship and portfolio demonstration
-- Understanding real-world Windows exploitation workflows
+- Understanding real-world Windows kernel exploitation behavior
+- Studying exploit instability in production-like environments
 
-The environment simulates a small organization file-sharing server that
-is vulnerable due to insecure default configuration and outdated
-software.
+The environment represents a small organization workstation with exposed RDP services and missing security patches.
 
----------------------------------------------------------------------
+---
+## LINKS 
+
+- Download Windows-2 Lab :
+- Documentation and Walkthrough for Windows-2 Lab : 
+---
 
 2. Vulnerability Summary
-------------------------
-- Software Name        : Rejetto HTTP File Server (HFS)
-- Affected Version     : 2.4.0 RC7
-- CVE ID               : CVE-2024-23692
-- Vulnerability Type   : Unauthenticated Remote Code Execution (RCE)
-- Attack Vector        : Network (HTTP)
-- Authentication       : Not required
-- User Interaction     : Not required
-- Severity             : Critical
 
----------------------------------------------------------------------
+Software Name       : Microsoft Remote Desktop Protocol (RDP)
+Operating System   : Windows 7 Professional SP1
+CVE ID              : CVE-2019-0708
+Vulnerability Name  : BlueKeep
+Vulnerability Type  : Pre-Authentication Remote Code Execution
+Affected Port       : 3389/TCP
 
-3. CVSS Severity and Score
---------------------------
-- CVSS Version         : v3.1
-- Base Score           : 9.8 (Critical)
-- Vector               : AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+CVSS v3 Score       : 9.8 (Critical)
 
-This score indicates that the vulnerability can be exploited remotely
-over the network with no authentication or user interaction and leads
-to full system compromise.
+CVSS Vector         :
+AV:N / AC:L / PR:N / UI:N / S:U / C:H / I:H / A:H
 
----------------------------------------------------------------------
+---
 
-4. Impact
----------
-If successfully exploited, this vulnerability allows an attacker to:
+3. Vulnerability Impact
 
-- Execute arbitrary operating system commands
-- Gain unauthenticated remote shell access
-- Fully compromise the Windows host
-- Escalate privileges to SYSTEM if misconfigurations exist
-- Pivot to other internal machines
-- Deploy malware, ransomware, or persistence mechanisms
-- Access, modify, or destroy sensitive data
+The BlueKeep vulnerability allows an attacker to:
 
----------------------------------------------------------------------
+- Exploit the system without valid credentials
+- Trigger kernel-level memory corruption
+- Cause a remote Blue Screen of Death (Denial of Service)
+- Potentially execute arbitrary code as NT AUTHORITY\SYSTEM
+- Exploit the system in a wormable manner across networks
 
-5. Technical Root Cause
------------------------
-Rejetto HFS supports macro-based scripting and event handling to process
-HTTP requests. In vulnerable versions, user-supplied input is not
-properly sanitized before being processed by the scripting engine.
+Because the flaw exists at the kernel level, exploitation is highly unstable. In many cases, successful triggering of the vulnerability results in system crashes rather than a reliable interactive shell.
 
-This results in arbitrary command execution when crafted HTTP requests
-are sent to the server. The default configuration leaves scripting
-enabled and does not enforce authentication, making exploitation
-trivial.
+---
 
----------------------------------------------------------------------
+4. Lab Objective
 
-6. Lab Environment
-------------------
+The objective of this lab is to:
 
-Target Machine:
-- Operating System     : Windows 10 Pro (64-bit)
-- Application          : Rejetto HFS 2.4.0 RC7
-- Service Port         : TCP 80
-- User Account         : john (standard user)
-- Architecture         : x64
+- Identify exposed RDP services on a Windows host
+- Validate the presence of CVE-2019-0708
+- Exploit BlueKeep using the Metasploit Framework
+- Understand kernel-level exploitation behavior
+- Analyze why certain exploits cause crashes instead of shells
+- Practice professional vulnerability documentation
 
-Attacker Machine:
-- Operating System     : Kali Linux or Parrot OS
-- Tools                : Metasploit Framework
-- Network              : Same virtual network as target
+---
 
----------------------------------------------------------------------
+5. System Requirements
 
-7. System Requirements
-----------------------
+Attacker Machine Requirements:
 
-Host System:
-- Minimum RAM          : 8 GB
-- Virtualization       : Enabled (Intel VT-x / AMD-V)
-- Hypervisor           : VMware Workstation or VirtualBox
+- Kali Linux (Recommended)
+- Tools Installed:
+  - Nmap
+  - Metasploit Framework
+  - arp-scan
 
-Target VM (Windows):
-- RAM                  : 2 GB minimum
-- CPU                  : 1 core
-- Disk                 : 20 GB
-- Network Adapter      : NAT or Host-Only
+Target Machine Requirements:
 
-Attacker VM (Linux):
-- RAM                  : 2 GB minimum
-- Tools                : Metasploit Framework installed
+- Operating System : Windows 7 Professional SP1 (Unpatched)
+- Architecture     : 64-bit
+- RAM              : 2 GB
+- CPU              : 1 Core
+- Virtualization   : VMware Workstation
+- Network Mode     : NAT or Host-Only
 
----------------------------------------------------------------------
+---
 
-8. Steps to Recreate the Vulnerable Machine
--------------------------------------------
+6. Target Machine Setup Instructions
 
-Step 1: Install Windows 10
-- Create a new Windows 10 Pro virtual machine
-- Complete standard OS installation
-- Disable Windows Defender (lab use only)
-- Disable Windows Firewall
+To recreate the vulnerable BlueKeep machine, follow these steps:
 
-Step 2: Install Rejetto HFS
-- Download Rejetto HFS version 2.4.0 RC7
-- Run hfs.exe as Administrator
-- Allow network access when prompted
+1. Install Windows 7 Professional SP1
+2. Do not install any Windows updates
+3. Enable Remote Desktop
+4. Disable Network Level Authentication (NLA)
+5. Ensure port 3389 is accessible
+6. Disable Windows Firewall for lab purposes
+7. Reboot the system
 
-Step 3: Configure Vulnerable Settings
-- Enable Expert Mode in HFS
-- Ensure event scripting is accessible
-- Do not configure authentication
-- Keep default insecure settings
-- Run the server on TCP port 80
+Important Notes:
 
-Step 4: Add Realism
-- Create a standard user named "john"
-- Create a shared directory:
-  C:\Shares\Public
-- Add sample files to the shared directory
+- If NLA is enabled, BlueKeep exploitation will fail
+- If security updates are installed, the system will not be vulnerable
+- This lab must be isolated from production networks
 
-Step 5: Verification
-- Access the server from another machine:
-  http://TARGET-IP/
-- Confirm the banner shows:
-  HttpFileServer 2.4.0 RC7
+---
 
----------------------------------------------------------------------
+7. Attack Methodology Overview
 
-9. Exploitation Flow (High-Level)
----------------------------------
-1. Network scan identifies an open HTTP service
-2. Version enumeration reveals vulnerable HFS version
-3. CVE-2024-23692 is exploited remotely
-4. Unauthenticated remote code execution is achieved
-5. Reverse shell is obtained
-6. Local enumeration is performed
-7. Privilege escalation to SYSTEM is completed
+The attack follows a standard penetration testing workflow:
 
----------------------------------------------------------------------
+1. Network discovery to identify live hosts
+2. Service enumeration to detect exposed RDP
+3. Vulnerability validation
+4. Exploitation using Metasploit
+5. Observation of kernel-level exploit behavior
+6. Verification of user-level access indicators
 
-10. Learning Outcomes
----------------------
-By completing this lab, a learner gains practical experience in:
+---
 
-- Identifying vulnerable Windows services
-- Exploiting unauthenticated RCE vulnerabilities
-- Understanding insecure server configurations
-- Performing post-exploitation enumeration
-- Executing privilege escalation techniques
-- Designing realistic offensive security labs
+8. Exploitation Behavior and Stability
 
----------------------------------------------------------------------
+BlueKeep exploitation is inherently unreliable due to:
 
-11. Repository Structure (Suggested)
-------------------------------------
-Rejetto-HFS-CVE-2024-23692/
-│
-├── README.txt
-├── setup-guide/
-│   └── windows-setup.txt
-├── exploitation/
-│   └── attack-flow.txt
-├── flags/
-│   ├── user.txt
-│   └── root.txt
+- Kernel heap memory timing dependencies
+- Heap grooming requirements
+- Virtualization environment differences
+- Modern CPU and memory protections
 
----------------------------------------------------------------------
+As a result:
 
-12. Disclaimer
---------------
-This project is created strictly for educational and ethical security
-research purposes.
+- The system may crash repeatedly
+- Blue Screen of Death is expected
+- Multiple reboots may be required
+- A stable Meterpreter session is not guaranteed
 
-- Do not deploy this configuration in production
-- Do not expose this machine to the public internet
-- The author is not responsible for misuse or illegal activity
+This behavior is normal and confirms successful triggering of the vulnerability.
 
----------------------------------------------------------------------
+---
 
-13. Author
-----------
-Created as part of an Offensive Cybersecurity Internship Project,
-focusing on real-world vulnerability exploitation and lab design.
+9. Flags and Proof of Compromise
+
+User Flag Location:
+
+C:\Users\admin\Documents
+
+Purpose:
+
+The user flag represents confirmation of access to user-level data on the compromised system. Linux-style flags are simulated on Windows systems to demonstrate different access levels in a consistent lab format.
+
+---
+
+10. Security Disclaimer
+
+This project is created strictly for:
+
+- Educational use
+- Ethical hacking practice
+- Defensive security awareness
+
+Exploiting systems without explicit authorization is illegal. The author is not responsible for any misuse of this lab or the information provided.
+
+---
+
+11. Learning Outcomes
+
+By completing this lab, the following skills are developed:
+
+- Understanding of pre-authentication RCE vulnerabilities
+- Practical exposure to kernel-level exploitation
+- Handling unstable exploits in real-world scenarios
+- Windows service and protocol analysis
+- Professional documentation and reporting
+
+---
+
+12. References
+
+- CVE-2019-0708
+- Microsoft Security Advisory
+- Metasploit Framework Documentation
+- Windows RDP Security Architecture
+
+---
+13 . Disclaimer
+
+This lab is created strictly for educational and ethical penetration testing purposes. Do not deploy these configurations in production environments.
+
+---
+
+14 . Author
+
+Created By Gopesh Kachhadiya This lab was created as part of an offensive cybersecurity internship project focused on realistic attack simulations and hands-on learning.
