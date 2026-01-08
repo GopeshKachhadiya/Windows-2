@@ -21,11 +21,17 @@ The project is intended for:
 The environment represents a small organization workstation with exposed RDP services and missing security patches.
 
 ---
-## Important Links:  
 
- - Download Windows-2 : https://mega.nz/file/3R5mRB6A#gtvvxQ1RbT1lxdeCp8hiV5vzAhftI-_5_rojq0bZX_w
- - Documentation for Windows-2 With Walkthrough: https://mega.nz/file/DRB2lKRY#1iWeAi_m2VHuvS5VHZzwmYPfRfZ5pGkrRcGaoRWSxe8
- - Guide for Downloading and Running Vulnerable Labs in VMware: https://mega.nz/file/WEADkSZI#MvjDTY0KfGxxmyVezcEnAjdz48AQ1adV4XlW9lmhSVo
+## 🔗 Project Resources
+
+- **Lab Download:**  
+  https://mega.nz/file/3R5mRB6A#gtvvxQ1RbT1lxdeCp8hiV5vzAhftI-_5_rojq0bZX_w
+
+- **Documentation & Walkthrough:**  
+  https://mega.nz/file/DRB2lKRY#1iWeAi_m2VHuvS5VHZzwmYPfRfZ5pGkrRcGaoRWSxe8
+
+- **VMware Setup & Usage Guide:**  
+  https://mega.nz/file/WEADkSZI#MvjDTY0KfGxxmyVezcEnAjdz48AQ1adV4XlW9lmhSVo
 
 ---
 
