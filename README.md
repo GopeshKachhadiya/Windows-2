@@ -30,6 +30,10 @@ The environment represents a small organization workstation with exposed RDP ser
 - **Documentation & Walkthrough:**  
   https://mega.nz/file/DRB2lKRY#1iWeAi_m2VHuvS5VHZzwmYPfRfZ5pGkrRcGaoRWSxe8
 
+- **Bruteforce Resources:**  
+  - Username Wordlist: https://mega.nz/file/bBgnjTAT#6oXhVVIwlLo6p5B2iltI4ixC50yIiKtaQvqq8kLk_fg  
+  - Password Wordlist: https://mega.nz/file/qF5RHCpJ#f0ggoGrMh0jHhgupBxS3Jnv7DxIjzF5hjUqMdm4IX7s
+
 - **VMware Setup & Usage Guide:**  
   https://mega.nz/file/WEADkSZI#MvjDTY0KfGxxmyVezcEnAjdz48AQ1adV4XlW9lmhSVo
 
